@@ -39,14 +39,13 @@ class _MyHomePageState extends State<MyHomePage> {
   Contact newContact = new Contact();
 
   void showMessage(String message, [MaterialColor color = Colors.red]) {
-    _scaffoldKey.currentState
-        .showSnackBar(new SnackBar(backgroundColor: color, content: new Text(message)));
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(backgroundColor: color, content: new Text(message)));
   }
 
   void _submitForm() {
     final FormState form = _formKey.currentState;
 
-    if (!form.validate() ) {
+    if (!form.validate()) {
       showMessage('Form is not valid!  Please review and correct.');
     } else {
       form.save(); //This invokes each onSaved event
@@ -58,7 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
       print('');
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +101,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             value: state.value,
                             isDense: true,
                             onChanged: (String newValue) {
+                              if (newValue == '') {
+                                newValue = null;
+                              }
                               state.didChange(newValue);
                             },
                             items: _colors.map((String value) {
@@ -126,5 +127,4 @@ class _MyHomePageState extends State<MyHomePage> {
               ))),
     );
   }
-
 }
