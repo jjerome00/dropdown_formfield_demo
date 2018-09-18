@@ -4,21 +4,17 @@ import 'package:flutter/services.dart';
 
 void main() => runApp(new MyFormFieldApp());
 
-class Contact {
-  String name;
-  String favoriteColor = '';
-}
 
 class MyFormFieldApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return MaterialApp(
       title: 'Validating DropDown',
-      theme: new ThemeData(
+      theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new MyHomePage(title: 'Validating DropDown'),
+      home: MyHomePage(title: 'Validating DropDown'),
     );
   }
 }
@@ -32,18 +28,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  String _color = '';
-  List<String> _colors = <String>[null, 'red', 'green', 'blue', 'orange'];
-  Contact newContact = new Contact();
-
+  List<String> _dropdownValues = <String>['', 'red', 'green', 'blue', 'orange'];
+  String _name;
   String _chosenValue = '';
 
   void showMessage(String message, [MaterialColor color = Colors.red]) {
-    _scaffoldKey.currentState
-        .showSnackBar(new SnackBar(backgroundColor: color, content: new Text(message)));
+    _scaffoldKey.currentState.showSnackBar(SnackBar(backgroundColor: color, content: Text(message)));
   }
 
   void _submitForm() {
@@ -52,11 +45,12 @@ class _MyHomePageState extends State<MyHomePage> {
     if (!form.validate() ) {
       showMessage('Form is not valid!  Please review and correct.');
     } else {
-      form.save(); //This invokes each onSaved event
+      form.save();
 
-      print('Form save called, newContact is:');
-      print('Email: ${newContact.name}');
-      print('Favorite Color: ${newContact.favoriteColor}');
+      print('========================================');
+      print('Form Saved:');
+      print('Email: $_name');
+      print('Favorite Color: $_chosenValue');
       print('========================================');
       print('');
     }
@@ -65,47 +59,43 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       key: _scaffoldKey,
-      appBar: new AppBar(
-        title: new Text(widget.title),
+      appBar: AppBar(
+        title: Text(widget.title),
       ),
-      body: new SafeArea(
+      body: SafeArea(
           top: false,
           bottom: false,
-          child: new Form(
+          child: Form(
               key: _formKey,
               autovalidate: false,
-              child: new ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
                 children: <Widget>[
-                  new TextFormField(
+                  TextFormField(
                     decoration: const InputDecoration(
                       icon: const Icon(Icons.person),
-                      hintText: 'Enter your first and last name',
+                      hintText: 'Enter your name',
                       labelText: 'Name',
                     ),
-                    inputFormatters: [new LengthLimitingTextInputFormatter(30)],
+                    inputFormatters: [LengthLimitingTextInputFormatter(30)],
                     validator: (val) => val.isEmpty ? 'A name is required' : null,
-                    onSaved: (val) => newContact.name = val,
+                    onSaved: (val) => _name = val,
                   ),
                   DropdownFormField<String>(
                     hint: 'Color',
                     value: _chosenValue,
-                    items: _colors.toList(),
-                    onChanged: (val) => setState(() {
-                      _chosenValue = val;
-                    }),
+                    items: _dropdownValues.toList(),
+                    onChanged: (val) => setState(() { _chosenValue = val; }),
                     validator: (val) => (val == null || val.isEmpty) ? 'Please choose a color' : null,
                     initialValue: '',
-                    onSaved: (val) => setState(() {
-                      _chosenValue = val;
-                    }),
+                    onSaved: (val) => setState(() { _chosenValue = val; }),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(40.0),
+                    padding: EdgeInsets.all(40.0),
                     child: RaisedButton(
-                      child: const Text('Submit'),
+                      child: Text('Submit'),
                       onPressed: _submitForm,
                     )),
                 ],
