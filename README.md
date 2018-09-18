@@ -30,3 +30,8 @@ Both demos have their own file to use as starting point.
 From a terminal:   
 Main Demo: `flutter run ./lib/main.dart`   
 FormField Demo: `flutter run ./lib/main_formfield.dart`
+
+
+
+
+Special thanks to https://github.com/jebright/flutter_form_app, who got me started with validating forms.
