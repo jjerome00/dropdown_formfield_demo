@@ -49,10 +49,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
       print('========================================');
       print('Form Saved:');
-      print('Email: $_name');
-      print('Favorite Color: $_chosenValue');
+      print('Name: $_name');
+      print('Color: $_chosenValue');
       print('========================================');
       print('');
+
+      showMessage("Name: $_name\nColor: $_chosenValue", Colors.blue);
     }
   }
 

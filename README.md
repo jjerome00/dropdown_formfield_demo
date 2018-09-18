@@ -2,6 +2,8 @@
 
 A demo of a DropDown Widget in flutter that can be validated.
 
+![screenshot](validating-dropdown-demo.gif)
+
 > The Flutter team is supposed to release a full-featured dropdown at some point in the future.  So be sure to check on this if you intend to use this in production code.
 
 ## Background
