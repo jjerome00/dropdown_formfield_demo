@@ -29,7 +29,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  List<String> _dropdownValues = <String>['', 'red', 'green', 'blue', 'orange'];
+  final Map<String, MaterialColor> _dropdownValues = {'': null, 'red': Colors.red, 'green': Colors.green, 'blue': Colors.blue, 'orange': Colors.orange};
+
   String _name;
   String _chosenValue = '';
 
@@ -40,18 +41,18 @@ class _MyHomePageState extends State<MyHomePage> {
   void _submitForm() {
     final FormState form = _formKey.currentState;
 
+    print('========================================');
+
     if (!form.validate()) {
-      showMessage('Form is not valid!  Please review and correct.');
+      print('Form NOT VALID');
     } else {
       form.save();
-
-      print('========================================');
-      print('Form Saved:');
-      print('Email: $_name');
-      print('Favorite Color: $_chosenValue');
-      print('========================================');
-      print('');
+      String message = 'Form Valid: Name: $_name; Color: $_chosenValue';
+      print(message);
+      showMessage(message, _dropdownValues[_chosenValue]);
     }
+
+    print('========================================');
   }
 
   @override
@@ -88,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       return InputDecorator(
                         decoration: InputDecoration(
                           icon: Icon(Icons.color_lens),
-                          labelText: 'Color',
+                          labelText: 'Favorite Color',
                           errorText: state.hasError ? state.errorText : null,
                         ),
                         isEmpty: state.value == '' || state.value == null,
@@ -102,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               }
                               state.didChange(newValue);
                             },
-                            items: _dropdownValues.map((String value) {
+                            items: _dropdownValues.keys.map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(value),
